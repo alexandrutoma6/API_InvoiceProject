@@ -7,6 +7,7 @@ import com.alex.service.InvoiceService;
 import jakarta.persistence.PostUpdate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,19 @@ public class InvoiceController {
                 .toList();
     }
 
+    @GetMapping("/sort")
+    public List<InvoiceDto> getInvoiceSorted() {
+        return service.getAllSorted().stream()
+                .map(invoice -> mapper.toDto(invoice))
+                .toList();
+    }
+
+    @GetMapping("{invoiceId}")
+    public Invoice getInvoiceById(@PathVariable("invoiceId") Integer id){
+        return service.getById(id);
+    }
+
+
     @PostMapping
     public Invoice addInvoice(@RequestBody InvoiceDto request) { return service.addInvoice(request);}
 
@@ -39,8 +53,14 @@ public class InvoiceController {
                 .toList();
     }
 
+    @DeleteMapping("/all")
+    public String deleteAllInvoices(){
+        service.deleteAllInvoices();
+        return "ALL INVOICES DELETED";
+    }
+
     @PutMapping("{invoiceId}")
     public Invoice updateInvoice(@PathVariable("invoiceId") Integer id,@RequestBody InvoiceDto updateRequest){
-        return service.updateInvoice(updateRequest);
+        return service.updateInvoice(updateRequest,id);
     }
 }
