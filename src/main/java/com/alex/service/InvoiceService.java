@@ -7,8 +7,8 @@ import com.alex.model.entity.Invoice;
 import com.alex.repository.InvoiceRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Service
 public class InvoiceService {
@@ -38,13 +38,22 @@ public class InvoiceService {
         invoiceRepository.deleteById(id);
     }
 
-    public Invoice updateInvoice(InvoiceDto updateRequest) {
-        //notFoundInvoice(updateRequest.id());
-        Optional<Invoice> optionalInvoice = invoiceRepository.findById(updateRequest.id());
+    public Invoice updateInvoice(InvoiceDto updateRequest, Integer id) {
+        //notFoundInvoice(id);
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
         Invoice modifyInvoice = optionalInvoice.get();
         modifyInvoice.setCompanyName(updateRequest.companyName());
         modifyInvoice.setCui(updateRequest.cui());
         modifyInvoice.setInvoiceTotal(updateRequest.invoiceTotal());
         return invoiceRepository.save(modifyInvoice);
+    }
+
+    public void deleteAllInvoices() {
+        invoiceRepository.deleteAll();
+    }
+
+    public Invoice getById(Integer id) {
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+        return optionalInvoice.get();
     }
 }

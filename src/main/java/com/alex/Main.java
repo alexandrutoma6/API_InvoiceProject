@@ -14,7 +14,9 @@ public class Main {
     @Bean
     CommandLineRunner atStartup(InvoiceRepository repo) {
         return args -> {
-            repo.save(new Invoice(12, "test", 123, 123));
+            repo.save(new Invoice("test1", 100, 123));
+            repo.save(new Invoice("test2", 200, 1234));
+            repo.save(new Invoice("test3", 300, 12345));
 
         };
     }
