@@ -1,5 +1,6 @@
 package com.alex.controller;
 
+import com.alex.model.InvoiceFilter;
 import com.alex.model.dto.InvoiceDto;
 import com.alex.model.entity.Invoice;
 import com.alex.model.mappers.InvoiceMapper;
@@ -21,14 +22,15 @@ public class InvoiceController {
         this.mapper = mapper;
     }
 
-    @GetMapping
-    public List<InvoiceDto> getInvoice() {
-        return service.getAll().stream()
-                .map(invoice -> mapper.toDto(invoice))
+   /* @GetMapping
+    public List<InvoiceDto> getInvoice(InvoiceFilter invoiceFilter) {
+        return service.getAll(invoiceFilter).stream()
+                .map(mapper::toDto)
                 .toList();
     }
+    */
 
-    @GetMapping("/sort")
+    @GetMapping
     public List<InvoiceDto> getInvoiceSorted() {
         return service.getAllSorted().stream()
                 .map(invoice -> mapper.toDto(invoice))
@@ -48,12 +50,12 @@ public class InvoiceController {
     @DeleteMapping("{invoiceId}")
     public List<InvoiceDto>  deleteInvoice(@PathVariable("invoiceId") Integer id){
         service.deleteInvoice(id);
-        return service.getAll().stream()
+        return service.getAllSorted().stream()
                 .map(invoice -> mapper.toDto(invoice))
                 .toList();
     }
 
-    @DeleteMapping("/all")
+    @DeleteMapping
     public String deleteAllInvoices(){
         service.deleteAllInvoices();
         return "ALL INVOICES DELETED";

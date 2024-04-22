@@ -33,18 +33,18 @@ public class InvoiceService {
         }
     }
 
-    private void notFoundInvoice(Integer id) {
+    private void validateInvoiceExists(Integer id) {
         if(!invoiceRepository.existsById(id))
             throw new NotFoundException("The invoice with id " + id +" does not exist");
     }
 
     public void deleteInvoice(Integer id) {
-        notFoundInvoice(id);
+        validateInvoiceExists(id);
         invoiceRepository.deleteById(id);
     }
 
     public Invoice updateInvoice(InvoiceDto updateRequest, Integer id) {
-        notFoundInvoice(id);
+        validateInvoiceExists(id);
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
         Invoice modifyInvoice = optionalInvoice.get();
         modifyInvoice.setCompanyName(updateRequest.companyName());
@@ -58,7 +58,7 @@ public class InvoiceService {
     }
 
     public Invoice getById(Integer id) {
-        notFoundInvoice(id);
+        validateInvoiceExists(id);
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
         return optionalInvoice.get();
     }

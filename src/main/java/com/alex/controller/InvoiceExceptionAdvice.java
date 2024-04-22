@@ -2,8 +2,6 @@ package com.alex.controller;
 
 import com.alex.exceptions.NotFoundException;
 import com.alex.exceptions.ValidationException;
-import org.aspectj.weaver.ast.Not;
-import org.hibernate.annotations.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.ErrorResponse;
